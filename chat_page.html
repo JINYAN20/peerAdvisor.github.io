@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peer Assistant</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo"><img src="images/chatbot.png" style="width: 40px; height: auto;"></div>
+            <nav class="menu">
+                <a href="#"><img src="images/home.png" style="width: 40px; height: auto;"> Home</a>
+                <a href="#"><img src="images/profile.png" style="width: 40px; height: auto;"> Profile</a>
+                <a href="#"><img src="images/text.png" style="width: 40px; height: auto;"> Text</a>
+            </nav>
+        </aside>
+
+        <!-- Main Section -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>Shame and Guilt Entry 1</h1>
+            </header>
+
+            <!-- Chat Window -->
+            <div class="chat-window">
+                <!-- <div class="message bot">
+                    <div class="avatar"><img src="images/chatbot.png" style="width: 30px; height: auto;"></div>
+                    <div class="text">Hello! How can I assist you today?</div>
+                </div>
+                <div class="message user">
+                    <div class="text"></div>
+                    <div class="avatar"><img src="images/profile.png" style="width: 30px; height: auto;"></div>
+                </div> -->
+            </div>
+
+            <!-- Message Sending Section -->
+            <div class="send-section">
+                <input type="text" placeholder="Type your message here..." id="message-input">
+                <button id="send-button">Enter</button>
+            </div>
+        </main>
+    </div>
+
+<script>
+    document.getElementById('send-button').addEventListener('click', async () => {
+        const userMessage = document.getElementById('message-input').value;
+    
+        if (userMessage) {
+            // Display user message in chat window
+            appendMessage('user', userMessage);
+            document.getElementById('message-input').value = ''; 
+            //const loadingId = appendMessage('bot', 'Loading... Please wait.');
+            // Send the message to the backend (Flask API)
+            const response = await fetch('http://127.0.0.1:5000/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: userMessage })
+            });
+            
+        
+            // Get the bot's response
+            const loadingMessage = appendResponse('bot', 'Loading... Please wait.');
+            const data = await response.json();
+            const botMessage = data.response;
+            // updateMessage('bot',loadingMessage, botMessage);
+            appendResponse('bot', botMessage);
+           //appendResponse('bot', updateMessage(loadingMessage, botMessage));
+        }
+         
+    });
+
+    function appendMessage(sender, message) {
+        const chatWindow = document.querySelector('.chat-window');
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', sender);
+        messageDiv.innerHTML = `
+            <div class="text">${message}</div>
+            <div class="avatar"><img src="images/profile.png" style="width: 30px; height: auto;"></div>
+        `;
+        chatWindow.appendChild(messageDiv);
+        
+    }
+
+    function appendResponse(sender, message) {
+        const chatWindow = document.querySelector('.chat-window');
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', sender);
+        messageDiv.innerHTML = `
+            <div class="avatar"><img src="images/chatbot.png" style="width: 30px; height: auto;"></div>
+            <div class="text">${message}</div>
+        `;
+        chatWindow.appendChild(messageDiv);
+       
+    }
+
+    function updateMessage(sender, messageElement, newMessage){
+        const textDiv = messageElement.querySelector('.chat-window');
+        textDiv.textContent = newMessage;
+       // appendResponse(sender, messageElement)
+        // return messageElement
+    }
+
+</script>
+<script>
+    // Get the button element from the webpage
+    const sendButton = document.getElementById('send-button');
+
+    // Add an event listener to the entire document
+    document.addEventListener('keydown', function(event) {
+        // Check if a specific key is pressed (e.g., 'Enter')
+        if (event.key === 'Enter') {
+            // Trigger the web button's click event
+            sendButton.click();
+        }
+    });
+</script>
+
+    
+</body>
+</html>

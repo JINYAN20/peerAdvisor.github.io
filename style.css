@@ -1,0 +1,156 @@
+/* styles.css */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f8f4f1;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 100px;
+  background-color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  color: #fff;
+}
+
+.sidebar .logo {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.sidebar .menu a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 18px;
+  margin: 15px 0;
+  text-align: center;
+  display: block;
+}
+
+.sidebar .menu a:hover {
+  background-color: #555;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+/* Main Content */
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #eae1d8;
+}
+
+/* Header */
+.header {
+  background-color: #d1bfa7;
+  padding: 10px 20px;
+  color: #fff;
+  text-align: center;
+}
+
+/* Chat Window */
+.chat-window {
+  flex-grow: 1;
+  padding: 15px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background-color: #fff;
+  border-bottom: 1px solid #b8a381;
+}
+
+
+.message {
+  display: flex;
+  align-items: center;
+}
+
+.message.user {
+  justify-content: flex-end;
+}
+
+.message .avatar {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #d1bfa7;
+  border-radius: 80%;
+  color: #fff;
+  font-size: 20px;
+  margin: 0 10px;
+}
+
+.message .text {
+  max-width: 70%;
+  background-color: #eae1d8;
+  border-radius: 5px;
+  padding: 15px;
+  word-wrap: break-word;
+  overflow-wrap: break-word; 
+  
+}
+
+.send-section{
+  width: 1300px;
+  height: 100px;
+  align-items: center;
+  padding: 0 20px;
+  display: flex;
+  
+}
+
+.send-section input{
+  width: 1205px;
+  height: 40px;
+  border-radius: 5px;
+  text-align: center;
+  /* align-items: right; */
+  padding-right: 10px; 
+  padding-left: 10px;
+  
+}
+
+/* Send Button */#eae1d8
+.send-section send-button {
+
+  background-color: #d1bfa7; /* Button background color */
+  color: white; /* Button text color */
+  border: none;
+  border-radius: 5px;
+  padding: 200px 400px; /* Button padding */
+  cursor: pointer;
+  font-size: 300px; /* Button text size */
+}
+
+.send-section button:hover {
+  background-color: #b8a381; /* Hover effect for the button */
+}
+
+/* .send-section send-button{
+  width: 1000px;
+  height: 40px;
+  border-radius: 5px;
+  text-align: center;
+  align-items: center;
+  
+  
+} */
+/* .send-section input {
+  width: 80%; /* Adjust to fit content */
+  /* height: 40px;
+  border-radius: 5px;
+  text-align: center;
+  padding: 0 10px;
+} */ 
