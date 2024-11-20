@@ -13,33 +13,28 @@ body {
 
 /* Sidebar */
 .sidebar {
-  width: 100px;
-  background-color: #333;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 20px;
-  color: #fff;
+  width: 100px; /* Sidebar width */
+  background-color: #333; /* Dark background */
+  display: flex; /* Enable flexbox */
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items horizontally */
+  justify-content: space-between; /* Evenly distribute space between all items */
+  height: 100vh; /* Full height of the viewport */
+  color: #fff; /* White text color */
 }
 
-.sidebar .logo {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-.sidebar .menu a {
-  text-decoration: none;
-  color: #fff;
-  font-size: 18px;
-  margin: 15px 0;
-  text-align: center;
-  display: block;
+.menu {
+  display: flex; /* Enable flexbox for menu */
+  flex-direction: column; /* Stack menu items vertically */
+  align-items: center; /* Center items horizontally */
+  justify-content: space-evenly; /* Evenly distribute icons */
+  flex-grow: 1; /* Take up remaining space for even distribution */
+  width: 100%; /* Ensure menu takes the full width of the sidebar */
+  gap: 20px; /* Optional: Additional gap between items */
 }
 
 .sidebar .menu a:hover {
   background-color: #555;
-  padding: 5px;
-  border-radius: 5px;
 }
 
 /* Main Content */
@@ -56,6 +51,15 @@ body {
   padding: 10px 20px;
   color: #fff;
   text-align: center;
+}
+
+.header-title {
+  display: flex; /* Align items horizontally */
+  align-items: center; /* Vertically center the logo and text */
+  font-size: 24px; /* Adjust text size for a balanced look */
+  font-weight: bold; /* Make the text bold for emphasis */
+  gap: 10px; /* Add spacing between the logo and text */
+  color: #ffffff; /* Adjust the color for readability */
 }
 
 /* Chat Window */
@@ -183,35 +187,32 @@ body {
   
 }
 
-/* Send Button */#eae1d8
-.send-section send-button {
-
-  background-color: #d1bfa7; /* Button background color */
-  color: white; /* Button text color */
-  border: none;
-  border-radius: 5px;
-  padding: 200px 400px; /* Button padding */
-  cursor: pointer;
-  font-size: 300px; /* Button text size */
+/* Remove default button styling */
+#send-button {
+  background: none; /* Remove background */
+  border: none; /* Remove border */
+  padding: 15px; /* Remove padding */
+  cursor: pointer; /* Add pointer cursor to indicate clickability */
+  display: inline-flex; /* Ensure the button wraps tightly around the image */
+  align-items: center; /* Align the image vertically if needed */
+  justify-content: center; /* Center the image within the button */
 }
 
-.send-section button:hover {
-  background-color: #b8a381; /* Hover effect for the button */
+/* Style the image */
+#send-button img {
+  width: 40px; /* Set image width */
+  height: auto; /* Maintain image aspect ratio */
+  transition: opacity 0.3s ease, transform 0.2s ease; /* Smooth hover and active effects */
 }
 
-/* .send-section send-button{
-  width: 1000px;
-  height: 40px;
-  border-radius: 5px;
-  text-align: center;
-  align-items: center;
-  
-  
-} */
-/* .send-section input {
-  width: 80%; /* Adjust to fit content */
-  /* height: 40px;
-  border-radius: 5px;
-  text-align: center;
-  padding: 0 10px;
-} */ 
+/* Hover Effect */
+#send-button img:hover {
+  opacity: 0.7; /* Reduce opacity for hover effect */
+}
+
+/* Active (Pressed) Effect */
+#send-button img:active {
+  transform: scale(0.95); /* Slightly shrink the image when clicked */
+  opacity: 0.8; /* Reduce opacity slightly */
+}
+

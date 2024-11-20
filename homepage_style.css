@@ -15,11 +15,14 @@ header {
     border-bottom: 1px solid #ddd;
 }
 
-header .profile-pic {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-}
+.header-title {
+    display: flex; /* Align items horizontally */
+    align-items: center; /* Vertically center the logo and text */
+    font-size: 24px; /* Adjust text size for a balanced look */
+    font-weight: bold; /* Make the text bold for emphasis */
+    gap: 10px; /* Add spacing between the logo and text */
+    color: #000000; /* Adjust the color for readability */
+  }
 
 .dashboard {
     display: flex;
@@ -27,18 +30,28 @@ header .profile-pic {
 }
 
 .sidebar {
-    background-color: #f7f7f7;
-    width: 80px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px 0;
-}
-
-.sidebar .menu-item {
-    margin: 20px 0;
-    cursor: pointer;
-}
+    width: 50px; /* Sidebar width */
+    background-color: #333; /* Dark background */
+    display: flex; /* Enable flexbox */
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: space-between; /* Evenly distribute space between all items */
+    color: #fff; /* White text color */
+  }
+  
+  .menu {
+    display: flex; /* Enable flexbox for menu */
+    flex-direction: column; /* Stack menu items vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: space-evenly; /* Evenly distribute icons */
+    flex-grow: 1; /* Take up remaining space for even distribution */
+    width: 100%; /* Ensure menu takes the full width of the sidebar */
+    gap: 20px; /* Optional: Additional gap between items */
+  }
+  
+  .sidebar .menu a:hover {
+    background-color: #555;
+  }
 
 .main-content {
     flex: 1;
