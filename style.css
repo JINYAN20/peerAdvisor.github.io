@@ -7,6 +7,7 @@ body {
 
 .container {
   display: flex;
+  position: relative;
   height: 100vh;
 }
 
@@ -70,8 +71,40 @@ body {
 }
 
 
+/* Style the loader to appear as a spinning circle */
+.loader {
+  border: 10px solid #f3f3f3;
+  border-top: 10px solid #b8a381;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 3s linear infinite;
+  margin-top: 5px;
+  display: inline-block; /* Keep it inline with text */
+}
+
+/* Create a spinning animation for the loader */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Style for the chat window and messages */
+.chat-window {
+  flex-grow: 1;
+  padding: 15px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background-color: #fff;
+  border-bottom: 1px solid #b8a381;
+}
+
+/* Style for individual messages */
 .message {
   display: flex;
+  gap: 10px;
   align-items: center;
 }
 
@@ -92,6 +125,17 @@ body {
   margin: 0 10px;
 }
 
+.message .markdown {
+  max-width: 70%;
+  background-color: #eae1d8;
+  border-radius: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  word-wrap: break-word;
+  overflow-wrap: break-word; 
+  
+}
+
 .message .text {
   max-width: 70%;
   background-color: #eae1d8;
@@ -99,7 +143,24 @@ body {
   padding: 15px;
   word-wrap: break-word;
   overflow-wrap: break-word; 
-  
+}
+
+.message.user .text {
+  max-width: 70%;
+  background-color: #eae1d8;
+  border-radius: 5px;
+  padding: 15px;
+  word-wrap: break-word;
+  overflow-wrap: break-word; 
+}
+
+.message.bot .text {
+  max-width: 70%;
+  background-color: #eae1d8;
+  border-radius: 5px;
+  padding: 15px;
+  word-wrap: break-word;
+  overflow-wrap: break-word; 
 }
 
 .send-section{

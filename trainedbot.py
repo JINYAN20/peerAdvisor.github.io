@@ -59,9 +59,9 @@ def chat():
     # context.append({'role': 'assistant', 'content': assistant_reply})
     # session['context'] = context  # Update the context in the session
 
-    print(context)
-    print("Response,"+assistant_reply)
-    print("send,"+user_message)
+    # print(context)
+    # print("Response,"+assistant_reply)
+    # print("send,"+user_message)
 
     return jsonify({'response': assistant_reply})
 

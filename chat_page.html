@@ -12,9 +12,8 @@
         <aside class="sidebar">
             <div class="logo"><img src="images/chatbot.png" style="width: 40px; height: auto;"></div>
             <nav class="menu">
-                <a href="#"><img src="images/home.png" style="width: 40px; height: auto;"> Home</a>
+                <a href="http://127.0.0.1:5500/home_page.html"><img src="images/home.png" style="width: 40px; height: auto;"> Home</a>
                 <a href="#"><img src="images/profile.png" style="width: 40px; height: auto;"> Profile</a>
-                <a href="#"><img src="images/text.png" style="width: 40px; height: auto;"> Text</a>
             </nav>
         </aside>
 
@@ -27,14 +26,6 @@
 
             <!-- Chat Window -->
             <div class="chat-window">
-                <!-- <div class="message bot">
-                    <div class="avatar"><img src="images/chatbot.png" style="width: 30px; height: auto;"></div>
-                    <div class="text">Hello! How can I assist you today?</div>
-                </div>
-                <div class="message user">
-                    <div class="text"></div>
-                    <div class="avatar"><img src="images/profile.png" style="width: 30px; height: auto;"></div>
-                </div> -->
             </div>
 
             <!-- Message Sending Section -->
@@ -44,16 +35,19 @@
             </div>
         </main>
     </div>
+    
 
 <script>
     document.getElementById('send-button').addEventListener('click', async () => {
         const userMessage = document.getElementById('message-input').value;
-    
         if (userMessage) {
             // Display user message in chat window
             appendMessage('user', userMessage);
-            document.getElementById('message-input').value = ''; 
-            //const loadingId = appendMessage('bot', 'Loading... Please wait.');
+            document.getElementById('message-input').value = '';
+
+            // Show loader while waiting for the bot's response
+            showLoader();
+
             // Send the message to the backend (Flask API)
             const response = await fetch('http://127.0.0.1:5000/chat', {
                 method: 'POST',
@@ -62,17 +56,14 @@
                 },
                 body: JSON.stringify({ message: userMessage })
             });
-            
-        
-            // Get the bot's response
-            const loadingMessage = appendResponse('bot', 'Loading... Please wait.');
+
             const data = await response.json();
             const botMessage = data.response;
-            // updateMessage('bot',loadingMessage, botMessage);
+
+            // Hide the loader and display the bot's response
+            hideLoader();
             appendResponse('bot', botMessage);
-           //appendResponse('bot', updateMessage(loadingMessage, botMessage));
         }
-         
     });
 
     function appendMessage(sender, message) {
@@ -84,7 +75,7 @@
             <div class="avatar"><img src="images/profile.png" style="width: 30px; height: auto;"></div>
         `;
         chatWindow.appendChild(messageDiv);
-        
+        chatWindow.scrollTop = chatWindow.scrollHeight; 
     }
 
     function appendResponse(sender, message) {
@@ -93,20 +84,35 @@
         messageDiv.classList.add('message', sender);
         messageDiv.innerHTML = `
             <div class="avatar"><img src="images/chatbot.png" style="width: 30px; height: auto;"></div>
-            <div class="text">${message}</div>
+            <md-block class="markdown">${message}</md-block>
         `;
         chatWindow.appendChild(messageDiv);
-       
+        chatWindow.scrollTop = chatWindow.scrollHeight; 
     }
 
-    function updateMessage(sender, messageElement, newMessage){
-        const textDiv = messageElement.querySelector('.chat-window');
-        textDiv.textContent = newMessage;
-       // appendResponse(sender, messageElement)
-        // return messageElement
+    function showLoader() {
+        const chatWindow = document.querySelector('.chat-window');
+        const loaderDiv = document.createElement('div');
+        loaderDiv.classList.add('loader');
+        loaderDiv.innerHTML = `
+            <div class="text"></div>
+        `;
+        chatWindow.appendChild(loaderDiv);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
     }
 
+    function hideLoader() {
+        const loader = document.querySelector('.loader');
+        if (loader) {
+            loader.remove();  // Remove loader once message is ready
+        }
+    }
 </script>
+
+<script type="module" src="https://md-block.verou.me/md-block.js">
+    import {MarkdownBlock, MarkdownSpan, MarkdownElement} from "https://md-block.verou.me/md-block.js";
+</script>
+
 <script>
     // Get the button element from the webpage
     const sendButton = document.getElementById('send-button');
@@ -120,7 +126,8 @@
         }
     });
 </script>
-
     
 </body>
 </html>
+
+
