@@ -9,19 +9,20 @@ body {
   display: flex;
   position: relative;
   height: 100vh;
+  overflow-x: hidden;
 }
 
 /* Sidebar */
 .sidebar {
-  width: 100px; /* Sidebar width */
+  width: 60px; /* Sidebar width */
   background-color: #333; /* Dark background */
   display: flex; /* Enable flexbox */
   flex-direction: column; /* Stack items vertically */
   align-items: center; /* Center items horizontally */
-  /*padding-bottom:10px;*/
   justify-content: space-between; /* Evenly distribute space between all items */
   height: 100vh; /* Full height of the viewport */
   color: #fff; /* White text color */
+  flex-shrink:0;
 }
 
 .menu {

@@ -24,12 +24,15 @@
         <!-- Main Content -->
         <main class="main-content">
             <!-- Therapist Info -->
-            <div class="therapist-info">
+            <div class="left-section">
                 <div class="card">
-                    <img src="therapist-pic.jpg" alt="Therapist" class="therapist-pic">
-                    <p>My Counselor</p>
-                    <h2>Olivia Collen</h2>
-                    <div class="notification-icon">🔔</div>
+                    <div class="therapist-name">
+                        <div>  
+                            <p>My Counselor</p>                  
+                            <h2>Olivia Collen</h2>
+                        </div>
+                    </div>
+                        <img src="images/therapist.jpg" alt="Therapist" class="therapist-pic">
                 </div>
             </div>
 
@@ -38,7 +41,6 @@
                 <h2>Homework Exercises:</h2>
                 <div class="homework-list">
                     <div class="homework-item unfinished" onclick="openHomework(3)">
-                        <a href="http://127.0.0.1:5500/chat_page.html#" class="homework-link">
                             <span>Shame and Guilt Entry 3</span>
                             <span>➔</span>
                         </a>
@@ -67,6 +69,11 @@
             </div>
         </main>
     </div>
-    <script src="script.js"></script> <!-- External JS for functionality -->
+    <script>
+        function openHomework(id) {
+            console.log("Opening homework with ID:", id);
+            window.location.href = `http://127.0.0.1:5500/chat_page.html#`;
+        }
+    </script> 
 </body>
 </html>
