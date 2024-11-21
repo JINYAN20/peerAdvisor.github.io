@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from openai import OpenAI
 
@@ -43,25 +43,39 @@ Your goal is to help clients view their guilt-driven thoughts in a different lig
 If you cannot answer the uer's question from the context, gently guide the conversation back. \
 """} 
 ]
+# @app.route('/chat', methods=['POST'])
+# def chat():
+#     user_message = request.json.get('message')
+#     context.append({'role': 'user', 'content': user_message})
+#     assistant_reply = get_completion_from_messages(context)
+#     context.append({'role': 'assistant', 'content': assistant_reply})
+
+#     print(context)
+
+#     return jsonify({'response': assistant_reply})
+
+# if __name__ == '__main__':
+#     app.run(debug=True)
+
+
+# Route for the homepage
+@app.route('/')
+def home():
+    return render_template('homepage.html')
+
+# Route for the chatbot page
+@app.route('/chatpage')
+def chatpage():
+    return render_template('chatbot.html')
+
+# Chat API for handling messages
 @app.route('/chat', methods=['POST'])
 def chat():
     user_message = request.json.get('message')
-    # if 'context' not in session:
-    #     session['context']=[
     context.append({'role': 'user', 'content': user_message})
     assistant_reply = get_completion_from_messages(context)
     context.append({'role': 'assistant', 'content': assistant_reply})
-
-    # context = session['context']  # Get the context from the session
-    # context.append({'role': 'user', 'content': user_message})
-    # assistant_reply = get_completion_from_messages(context)
-    # context.append({'role': 'assistant', 'content': assistant_reply})
-    # session['context'] = context  # Update the context in the session
-
     print(context)
-    # print("Response,"+assistant_reply)
-    # print("send,"+user_message)
-
     return jsonify({'response': assistant_reply})
 
 if __name__ == '__main__':
