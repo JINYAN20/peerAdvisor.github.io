@@ -49,7 +49,7 @@ body {
 
 /* Header */
 .header {
-  background-color: #d1bfa7;
+  background-color: #d3c3b5;
   padding: 10px 20px;
   color: #fff;
   text-align: center;
@@ -73,7 +73,7 @@ body {
   flex-direction: column;
   gap: 15px;
   background-color: #fff;
-  border-bottom: 1px solid #b8a381;
+  border-bottom: 1px solid #d3c3b5;
 }
 
 .loader {
@@ -87,7 +87,7 @@ body {
 /* Style the loader to appear as a spinning circle */
 .loader-animate {
   border: 10px solid #f3f3f3;
-  border-top: 10px solid #b8a381;
+  border-top: 10px solid #d3c3b5;
   border-radius: 50%;
   width: 30px;
   height: 30px;
@@ -111,7 +111,7 @@ body {
   flex-direction: column;
   gap: 15px;
   background-color: #fff;
-  border-bottom: 1px solid #b8a381;
+  border-bottom: 1px solid #d3c3b5;
 }
 
 /* Style for individual messages */
@@ -131,7 +131,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #d1bfa7;
+  background-color: #a46b34;
   border-radius: 80%;
   color: #fff;
   font-size: 20px;
@@ -149,18 +149,18 @@ body {
   
 }
 
-.message .text {
+/* .message .text {
   max-width: 70%;
   background-color: #eae1d8;
   border-radius: 5px;
   padding: 15px;
   word-wrap: break-word;
   overflow-wrap: break-word; 
-}
+} */
 
 .message.user .text {
   max-width: 70%;
-  background-color: #eae1d8;
+  background-color: #d9d9d9;
   border-radius: 5px;
   padding: 15px;
   word-wrap: break-word;
