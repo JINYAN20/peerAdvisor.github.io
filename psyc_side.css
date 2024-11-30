@@ -11,17 +11,31 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
-}
+    overflow: hidden;
+    }
+
 .header {
+    position: fixed; /* Fixes the header at the top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
     background-color: white;
     color: #3d3d3d;
     padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 60px; /* Set a fixed height for the header */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.header img {
-    height: 30px;
+.header logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.logo-container img{
+    height:30px;
 }
 .header .user {
     display: flex;
@@ -34,36 +48,101 @@ body {
     margin-left: 10px;
 }
 .main {
+    margin-top:60px;
     display: flex;
     flex: 2;
 }
 .sidebar {
+    width: 350px;
     background-color: #f0f0f0;
-    width: 250px;
     padding: 20px;
     display: flex;
     flex-direction: column;
+    height: 100vh;
+    position: fixed;
+    overflow-y: scroll;
 }
 .sidebar .clients {
     margin-top: 20px;
 }
-.sidebar .clients .client {
+.clients .client {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+}
+
+.name {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.status {
+    font-size: 14px;
+    
+    color: #666;
+}
+.assigned{
+    padding-bottom: 10px;
+}
+.assigned .number{
+    background-color: #af4c4c; /* Green for completed */
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 50%;
+    font-weight: bold;
+    width: 30px;
+    height: 30px;
+}
+
+.completed .number {
+    background-color: #4caf50; /* Green for completed */
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 50%;
+    font-weight: bold;
+}
+
+.sidebar .clients .client:hover {
+    background-color: #e6e6e6;
+}
+
+.content {
+    flex:1;
+    margin-left:350px;
+    background-color: #d3c3b5;
+    padding: 50px;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.client-info{
     margin-bottom: 15px;
     padding: 10px;
     border-radius: 5px;
     background-color: #fff;
     display: flex;
-    justify-content: space-between;
+    flex-direction: row;
     align-items: center;
-    cursor: pointer;
-}
-.sidebar .clients .client:hover {
-    background-color: #e6e6e6;
-}
-.content {
-    flex: 1;
-    background-color: #d3c3b5;
-    padding: 50px;
+    width: 50%;
 }
 .form-section {
     margin-top: 20px;
@@ -82,7 +161,6 @@ body {
 }
 .form-section form label {
     margin-bottom: 5px;
-    font-weight: bold;
 }
 .form-section form input,
 .form-section form select,
@@ -101,4 +179,7 @@ body {
 }
 .form-section form button:hover {
     background-color: #555;
+}
+.client.active {
+    border-left: 4px solid #3d3d3d;
 }
