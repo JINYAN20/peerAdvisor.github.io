@@ -14,9 +14,32 @@ app = Flask(__name__)
 app.secret_key = 'your_secret_key' 
 CORS(app)
 
-
 # Set your OpenAI API key here
 client = OpenAI(api_key='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')
+
+# -----------------------------------------Therapist Side-----------------------------------------------#
+# Directory to save data
+DATA_DIRECTORY = 'client_data'
+
+if not os.path.exists(DATA_DIRECTORY):
+    os.makedirs(DATA_DIRECTORY)
+
+@app.route('/psyc_side', methods=['POST'])
+def upload_data():
+    try:
+        # Get JSON data from the client
+        data = request.get_json()
+        client_id = data.get('client_id', 'unknown_client')
+        
+        # Save the data as a JSON file
+        file_path = os.path.join(DATA_DIRECTORY, f"{client_id}.json")
+        with open(file_path, 'w') as json_file:
+            json.dump(data, json_file, indent=2)
+
+        return jsonify({"message": "Data uploaded successfully"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+# -----------------------------------------Therapist Side-----------------------------------------------#
 
 # Define the chat function to interact with OpenAI
 def get_completion_from_messages(messages, model="gpt-4o-mini", temperature=0.47):

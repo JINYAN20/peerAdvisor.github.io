@@ -63,9 +63,8 @@
             <section class="content">
                 <div class="info-and-form">
                     <div class="client-info" id="client-info">
-                        <img src="images/client1.png" class="profile-pic">
-                        <div class="right-section-name">Claudia Alves</div>
-                      </div>
+                        * Please Select a Client to Start *
+                    </div>
                     <div class="form-section">
                         <h2>Assign New Homework</h2>
                         <form>
@@ -154,12 +153,13 @@
             event.preventDefault()
             // Collect form data
             const formData = {
-                name: document.getElementById('name').value,
+                client_id: document.querySelector('.right-section-name').textContent,
+                homework_name: document.getElementById('name').value,
                 type: document.getElementById('type').value,
                 description: document.getElementById('description').value,
                 duedate: document.getElementById('duedate').value,
-                risky: document.querySelector('input[name="risky"]:checked')?.value,
-                tone: document.querySelector('input[name="tone"]:checked')?.value,
+                risky: Array.from(document.querySelectorAll('input[name="risky"]:checked')).map(input => input.value),
+                tone: Array.from(document.querySelectorAll('input[name="tone"]:checked')).map(input => input.value),
                 questions: document.getElementById('questions').value
             };
 
