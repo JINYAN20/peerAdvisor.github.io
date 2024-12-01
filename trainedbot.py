@@ -128,6 +128,33 @@ def save_summary(summary_json):
     except Exception as e:
         print(f"Error saving summary: {e}")
 
+def generate_history(context):
+    """
+    Generate a summary from the conversation context.
+    """
+    # Example of generating a simple summary
+    summary = {
+        "conversation": context,
+        "timestamp": datetime.now().strftime('%Y%m%d_%H%M%S')
+    }
+    return summary
+
+def save_history(summary_json):
+    """
+    Save the summary to a JSON file.
+    """
+    save_dir = os.path.abspath('conversation_histories')
+    os.makedirs(save_dir, exist_ok=True)
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    filename = os.path.join(save_dir, f'history_{timestamp}.json')
+
+    try:
+        with open(filename, 'w') as f:
+            json.dump(summary_json, f, indent=4)
+        print(f"History saved: {filename}")
+    except Exception as e:
+        print(f"Error saving history: {e}")
+
 
 @app.route('/end-conversation', methods=['POST'])
 def end_conversation():
@@ -151,10 +178,13 @@ def end_conversation():
     response = get_completion_from_messages(messages, temperature=0.47)
     #response = global_session_data.get('summary', None)
     print(response)
+    print(messages)
     summary = generate_summary(response)
+    history = generate_summary(messages)
 
     # Save the summary
     threading.Thread(target=save_summary, args=(summary,)).start()
+    threading.Thread(target=save_history, args=(history,)).start()
     #global_session_data['summary'] = None
     global_session_data['context'] = []
     # Respond back to the client
