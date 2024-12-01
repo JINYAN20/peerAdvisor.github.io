@@ -10,7 +10,8 @@ body {
 .container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    min-height: 100vh;
+    position:ralative;
     overflow: hidden;
     }
 
@@ -92,12 +93,11 @@ body {
 .name {
     font-size: 16px;
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 .status {
     font-size: 14px;
-    
     color: #666;
 }
 .assigned{
@@ -106,7 +106,7 @@ body {
 .assigned .number{
     background-color: #af4c4c; /* Green for completed */
     color: #fff;
-    padding: 3px 8px;
+    padding: 3px 7px;
     border-radius: 50%;
     font-weight: bold;
     width: 30px;
@@ -116,22 +116,64 @@ body {
 .completed .number {
     background-color: #4caf50; /* Green for completed */
     color: #fff;
-    padding: 3px 8px;
+    padding: 3px 7px;
     border-radius: 50%;
     font-weight: bold;
 }
 
-.sidebar .clients .client:hover {
-    background-color: #e6e6e6;
-}
-
 .content {
-    flex:1;
-    margin-left:350px;
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    margin-left: 350px;
     background-color: #d3c3b5;
     padding: 50px;
     height: 100vh;
-    overflow-y: auto;
+    overflow-y: hidden;
+    position: relative;
+}
+
+.info-and-form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.homework-section {
+    flex: 1;
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 85px;
+    margin-left: 20px;
+}
+
+.homework-section h2 {
+    margin-bottom: 15px;
+}
+
+.homework-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.homework-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.homework-item.unfinished {
+    opacity: 1;
+}
+
+.homework-item.finished {
+    opacity: 0.5;
 }
 
 .client-info{
@@ -142,17 +184,24 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 50%;
+    width:fit-content;
+}
+
+.right-section-name{
+    margin-left: 15px;
+    margin-right:15px;
+    font-size: 20px;
+    font-weight: bold;
 }
 .form-section {
-    margin-top: 20px;
+    margin-bottom:20px;
     border: 2px solid #d3c3b5;
     border-radius: 10px;
-    padding: 100px;
+    padding: 20px;
     background-color: #f9f5f1;
 }
 .form-section h2 {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 .form-section form {
     display: grid;

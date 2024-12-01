@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Peer Assistant</title>
-    <link rel="stylesheet" href="psyc_side.css">
+    <link rel="stylesheet" href="psyc_home.css">
 </head>
 <body>
     <div class="container">
@@ -12,7 +12,6 @@
         <header class="header">
             <div class="logo-container">
                 <img src="images/logo_black.png" alt="Peer Assistant Logo"> 
-                <span>Peer Assistant</span>
             </div>
             <div class="user">
                 Hello Olivia
@@ -31,15 +30,15 @@
                         <div class="info">
                             <div class="name">Claudia Alves</div>
                             <div class="status">
-                                <span class="assigned">Assigned: <span class="number">8</span></span>
-                                <span class="completed">Completed: <span class="number">7</span></span>
+                                <span class="assigned">Assigned: <span class="number">1</span></span>
+                                <span class="completed">Completed: <span class="number">0</span></span>
                             </div>
                         </div>
                     </div>
                     <div class="client">
                         <img src="images/client2.png" class="profile-pic">
                         <div class="info">
-                            <div class="name">Dani Martinez</div>
+                            <div class="name">Dani Dunn</div>
                             <div class="status">
                                 <span class="assigned">Assigned: <span class="number">2</span></span>
                                 <span class="completed">Completed: <span class="number">2</span></span>
@@ -49,10 +48,10 @@
                     <div class="client">
                         <img src="images/client3.png" class="profile-pic">
                         <div class="info">
-                            <div class="name">Kimberly Nguyen</div>
+                            <div class="name">Rebecca Wood</div>
                             <div class="status">
-                                <span class="assigned">Assigned: <span class="number">7</span></span>
-                                <span class="completed">Completed: <span class="number">0</span></span>
+                                <span class="assigned">Assigned: <span class="number">3</span></span>
+                                <span class="completed">Completed: <span class="number">2</span></span>
                             </div>
                         </div>
                     </div>
@@ -62,43 +61,71 @@
 
             <!-- Right Content -->
             <section class="content">
-                <div class="client-info" id="client-info">
-                    Select a client to see their details.
+                <div class="info-and-form">
+                    <div class="client-info" id="client-info">
+                        <img src="images/client1.png" class="profile-pic">
+                        <div class="right-section-name">Claudia Alves</div>
+                      </div>
+                    <div class="form-section">
+                        <h2>Assign New Homework</h2>
+                        <form>
+                            <label for="name">Homework Title *</label>
+                            <input type="text" id="name" name="name" required>
+    
+                            <label for="type">Type *</label>
+                            <select id="type" name="type" required>
+                                <option value="guilt">Guilt and Shame Treatment</option>
+                            </select>
+    
+                            <label for="description">Description</label>
+                            <textarea id="description" name="description" placeholder="Discribe the aim of this homework:"></textarea>
+    
+                            <label for="duedate">Due Date *</label>
+                            <input type="date" id="duedate" name="duedate" required>
+    
+                            <label>Risky Words</label>
+                            <div>
+                                <label><input type="checkbox" name="risky" value="absolute"> Guarantees and Absolute Promises</label><br>
+                                <label><input type="checkbox" name="risky" value="judgment"> Negative or Judgmental Terms</label>
+                            </div>
+    
+                            <label>Tone</label>
+                            <div>
+                                <label><input type="checkbox" name="tone" value="supportive"> Empathetic</label><br>
+                                <label><input type="checkbox" name="tone" value="friendly"> Conversational</label>
+                            </div>
+    
+                            <label>Questions to Ask</label>
+                            <textarea id="questions" name="questions" placeholder="Add more customized questions for chabot to ask:"></textarea>
+    
+                            <button type="submit" onclick="generateJSON()">Assign</button>
+                        </form>
+                    </div>    
                 </div>
-                <div class="form-section">
-                    <h2>Assign New Homework</h2>
-                    <form>
-                        <label for="name">Homework Title *</label>
-                        <input type="text" id="name" name="name" required>
-
-                        <label for="type">Type *</label>
-                        <select id="type" name="type" required>
-                            <option value="guilt">Guilt and Shame Treatment</option>
-                        </select>
-
-                        <label for="description">Description</label>
-                        <textarea id="description" name="description" placeholder="Discribe the aim of this homework:"></textarea>
-
-                        <label for="duedate">Due Date *</label>
-                        <input type="date" id="duedate" name="duedate" required>
-
-                        <label>Risky Words</label>
-                        <div>
-                            <label><input type="checkbox" name="risky" value="absolute"> Guarantees and Absolute Promises</label><br>
-                            <label><input type="checkbox" name="risky" value="judgment"> Negative or Judgmental Terms</label>
+                <div class="homework-section">
+                    <h2>Previous Exercises</h2>
+                    <div class="homework-list">
+                        <div class="homework-item unfinished" onclick="openHomework(3)">
+                                <span>Shame and Guilt Entry 3</span>
+                                <span>➔</span>
                         </div>
-
-                        <label>Tone</label>
-                        <div>
-                            <label><input type="checkbox" name="tone" value="supportive"> Empathetic</label><br>
-                            <label><input type="checkbox" name="tone" value="friendly"> Conversational</label>
+                        <div class="homework-item unfinished" onclick="openHomework(4)">
+                                <span>Shame and Guilt Entry 4</span>
+                                <span>➔</span>
                         </div>
-
-                        <label>Questions to Ask</label>
-                        <textarea id="questions" name="questions" placeholder="Add more customized questions for chabot to ask:"></textarea>
-
-                        <button type="submit" onclick="generateJSON()">Assign</button>
-                    </form>
+                        <div class="homework-item unfinished" onclick="openHomework(5)">
+                                <span>Shame and Guilt Entry 5</span>
+                                <span>➔</span>
+                        </div>
+                        <div class="homework-item finished">
+                            <span>Shame and Guilt Entry 1</span>
+                            <span>➔</span>
+                        </div>
+                        <div class="homework-item finished">
+                            <span>Shame and Guilt Entry 2</span>
+                            <span>➔</span>
+                        </div>
+                    </div>    
                 </div>
             </section>
         </div>
@@ -114,9 +141,7 @@
                 const clientInfo = document.getElementById('client-info');
                 clientInfo.innerHTML = `
                         <img src="${profile}" class="profile-pic">
-                        <div class="client-info">
-                            <div class="name">${name}</div>
-                        </div>
+                        <div class="right-section-name">${name}</div>
                 `;
                 
                 // Add active class to selected client and remove from others
