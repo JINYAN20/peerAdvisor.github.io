@@ -82,7 +82,13 @@
             // Hide the loader and display the bot's response
             hideLoader();
             appendResponse('bot', botMessage);
+            if (data.end_signal) {
+            createEndConversationButton();
+
+            
+      }
         }
+        
     });
 
     function appendMessage(sender, message) {
@@ -126,6 +132,82 @@
             loader.remove();  // Remove loader once message is ready
         }
     }
+
+    // function createEndConversationButton() {
+    //     const chatWindow = document.querySelector('.chat-window');
+
+    //     // Check if button already exists
+    //     if (document.getElementById('end-conversation-button')) {
+    //         console.log("End conversation button already exists.");
+    //         return;
+    //     }
+
+    //     console.log("Creating end conversation button.");
+    //     const endButtonDiv = document.createElement('div');
+    //     const endButton = document.createElement('button');
+    //     endButton.id = "end-conversation-button";
+    //     endButton.textContent = "End Conversation";
+    //     endButton.classList.add('end-conversation');
+    //     endButton.addEventListener('click', () => {
+    //         console.log("User clicked 'End Conversation'. Redirecting to home.");
+    //         window.location.href = 'http://127.0.0.1:5500/home_page.html';  // Redirect to home page or other desired location
+    //     });
+    //     endButtonDiv.appendChild(endButton);
+    //     chatWindow.appendChild(endButtonDiv);
+    //     chatWindow.scrollTop = chatWindow.scrollHeight;
+    // }
+    
+    function createEndConversationButton() {
+    const chatWindow = document.querySelector('.chat-window');
+
+    // Check if button already exists
+    if (document.getElementById('end-conversation-button')) {
+        console.log("End conversation button already exists.");
+        return;
+    }
+
+    console.log("Creating end conversation button.");
+    const endButtonDiv = document.createElement('div');
+    const endButton = document.createElement('button');
+    endButton.id = "end-conversation-button";
+    endButton.textContent = "End Conversation";
+    endButton.classList.add('end-conversation');
+    endButton.addEventListener('click', async () => {
+        window.location.href = 'http://127.0.0.1:5500/home_page.html';
+        
+        try {
+            console.log("User clicked 'End Conversation'. Sending signal to server.");
+
+            // Send an AJAX request to Flask when the button is clicked
+            const response = await fetch('http://127.0.0.1:5000/end-conversation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: 'End conversation' })
+            });
+
+            // Check if the response was successful
+            if (response.ok) {
+                const data = await response.json();
+                console.log("Server response:", data);
+                
+                // Redirect to home page after successful server response
+                window.location.href = 'http://127.0.0.1:5500/home_page.html';
+            } else {
+                console.error("Failed to end conversation");
+                // Optionally, show an error message to the user
+            }
+        } catch (error) {
+            console.error("Error ending conversation:", error);
+            // Optionally, show an error message to the user
+        }
+    });
+    endButtonDiv.appendChild(endButton);
+    chatWindow.appendChild(endButtonDiv);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+}  
+
 </script>
 
 <script type="module" src="https://md-block.verou.me/md-block.js">
@@ -148,5 +230,6 @@
     
 </body>
 </html>
+
 
 

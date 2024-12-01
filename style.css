@@ -225,3 +225,29 @@ body {
   opacity: 0.8; /* Reduce opacity slightly */
 }
 
+.end-conversation {
+  z-index: 1000;
+  background-color: #d3c3b5;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition effect */
+}
+
+
+.end-conversation:hover {
+  background-color: #c0a89c; /* Slightly darker shade for hover */
+  transform: scale(1.05); /* Slight enlargement on hover */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow */
+}
+
+.end-conversation:active {
+  transform: scale(0.95); /* Slight shrink when button is clicked */
+}
+
+
+
