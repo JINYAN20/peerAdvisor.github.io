@@ -174,7 +174,6 @@ def chat():
     #return jsonify({'response': assistant_reply})
     return jsonify({'response': assistant_reply, 'end_signal': end_signal})
 
-
 def generate_summary(context):
     """
     Generate a summary from the conversation context.
@@ -186,15 +185,18 @@ def generate_summary(context):
     }
     return summary
 
+
+
 def save_summary(summary_json):
     """
     Save the summary to a JSON file.
     """
     name = global_session_data.get('Name', 'Default Name')
+    formatted_name = name.replace(" ", "_") 
     save_dir = os.path.abspath('conversation_summaries')
     os.makedirs(save_dir, exist_ok=True)
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    filename = os.path.join(save_dir, f'summary_{timestamp}_{name}.json')
+    filename = os.path.join(save_dir, f'summary_{timestamp}_{formatted_name}.json')
 
     try:
         with open(filename, 'w') as f:
@@ -219,10 +221,11 @@ def save_history(summary_json):
     Save the summary to a JSON file.
     """
     name = global_session_data.get('Name', 'Default Name')
+    formatted_name = name.replace(" ", "_") 
     save_dir = os.path.abspath('conversation_histories')
     os.makedirs(save_dir, exist_ok=True)
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    filename = os.path.join(save_dir, f'history_{timestamp}_{name}.json')
+    filename = os.path.join(save_dir, f'history_{timestamp}_{formatted_name}.json')
 
     try:
         with open(filename, 'w') as f:
@@ -247,7 +250,7 @@ def end_conversation():
         {'role': 'system', 'content': f'Generate a session report summarizing the conversation and any key insights for the counselor of the client. '
                                       f'Itemize the guilt thoughts of the client and Provide the exact answer of the user for the question '
                                       f'The fields should be: '
-                                      f'1) Client Name: {name} 2) Client’s Experience: 3) Guilt-Driven Thoughts: '
+                                      f'1) Client Name: {name} 2) Clients Experience: 3) Guilt-Driven Thoughts: '
                                       f'4) Reframed Perspectives: 5). {global_question} : \n {global_question_answer} 6) Suggestions to Counselor: '}
     )
     
