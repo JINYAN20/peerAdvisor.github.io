@@ -88,17 +88,21 @@ def signup():
             return jsonify({"message": "Email or name already registered!"}), 400
         return jsonify({"message": f"Error during signup: {str(e)}"}), 400
 
+#Set a client id 
+client_id = None
 # Login route
 @app.route('/login', methods=['POST'])
 def login():
     data = request.json
     user = User.query.filter_by(email=data['email']).first()
+    global client_id
 
     if user and check_password_hash(user.password, data['password']):
         session['id']=user.id
         session['Fist_name']=user.first_name
         session['Last_name']=user.last_name
         session['is_counselor']=user.is_counselor
+        client_id = f"{user.first_name.lower()}_{user.last_name.lower()}"
         if session['is_counselor']:
             return jsonify({
                 "message": "Login successful!",
@@ -110,11 +114,11 @@ def login():
                 "redirect_url": "http://127.0.0.1:5500/home_page.html#"
             }), 200
     return jsonify({"message": "Invalid credentials!"}), 401
-
+print(client_id)
 # -----------------------------------------Login+signup Database Storage-----------------------------------------------#
 
 
-
+print(client_id)
 # Define the chat function to interact with OpenAI
 def get_completion_from_messages(messages, model="gpt-4o-mini", temperature=0.47):
     response = client.chat.completions.create(
@@ -199,6 +203,13 @@ global_session_data = {
     'Name' : None
 }
 
+def format_user_id(user_id):
+    # Split the string on underscore
+    parts = user_id.split('_')
+    # Capitalize each part and join with a space
+    formatted_id = ' '.join(part.capitalize() for part in parts)
+    return formatted_id
+
 
 # Route for the homepage
 @app.route('/')
@@ -216,7 +227,8 @@ def chatpage():
 def chat():
     user_message = request.json.get('message')
     # Add personalized context
-    client_id = "Claudia Alves" # default value here
+    #client_id = "Claudia Alves" # default value here
+    print(client_id)
     personalized_data = load_personalized_data(client_id) if client_id else None
     update_instructions_with_personalization(context, personalized_data)
     print(global_question)
@@ -237,7 +249,8 @@ def chat():
        
     if end_signal:
         global_session_data['context'] = context.copy()
-        global_session_data['Name'] = client_id
+        #global_session_data['Name'] = client_id
+        global_session_data['Name'] = format_user_id(client_id)
     #     summary = generate_summary(response)
     #     #threading.Thread(target=save_summary, args=(summary,)).start()
     #     #save_summary(summary)

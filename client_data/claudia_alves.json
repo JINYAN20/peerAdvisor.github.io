@@ -1,0 +1,14 @@
+{
+  "client_id": "claudia_alves",
+  "homework_name": "Guilt",
+  "type": "guilt",
+  "description": "None",
+  "duedate": "2024-12-02",
+  "risky": [
+    "absolute"
+  ],
+  "tone": [
+    "supportive"
+  ],
+  "questions": "Can you tell me one happy thing you have today"
+}

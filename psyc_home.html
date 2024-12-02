@@ -153,7 +153,11 @@
             event.preventDefault()
             // Collect form data
             const formData = {
-                client_id: document.querySelector('.right-section-name').textContent,
+                // client_id: document.querySelector('.right-section-name').textContent,
+                client_id: document.querySelector('.right-section-name').textContent
+                .trim() // Remove any extra spaces
+                .toLowerCase() // Convert to lowercase
+                .replace(/\s+/g, '_'), // Replace spaces with underscores
                 homework_name: document.getElementById('name').value,
                 type: document.getElementById('type').value,
                 description: document.getElementById('description').value,
