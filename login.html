@@ -13,18 +13,17 @@
                 <img src="images/logo_black.png" alt="Peer Assistant Logo"> 
                 <h1>Peer Assistant</h1>    
             </div>
-            <a href="/Signup.html#" class="login-link">Sign up</a>
+            <a href="/signup.html#" class="login-link">Sign up</a>
         </div>
         <div class="form-container">
             <h2>Wellcome Back!</h2>
             <form onsubmit="login(event)">
-                <input type="text" name="name" placeholder="Enter your name" required>
                 <input type="text" name="email" placeholder="Enter your email" required>
                 <input type="password" name="password" placeholder="Enter your password" required>
-                <div class="checkbox-container">
+                <!-- <div class="checkbox-container">
                     <input type="checkbox" name="counselor" id="counselor">
                     <label for="counselor">I am a counselor.</label>
-                </div>
+                </div> -->
                 <button type="submit" style="font-size: 16px;">Log in</button>
             </form>
         </div>
@@ -39,10 +38,8 @@
         function login(event) {
             event.preventDefault();
             const data = {
-                'name': document.querySelector('input[name="name"]').value,
                 'email': document.querySelector('input[name="email"]').value,
                 'password': document.querySelector('input[name="password"]').value,
-                'is_counselor': document.querySelector('input[name="counselor"]').checked
             };
             console.log(data);
             fetch('http://127.0.0.1:5000/login', {
@@ -52,12 +49,17 @@
                 },
                 body: JSON.stringify(data)
             }).then(response => {
-                return response.json(); 
-                console.log('Status code:', response.status); 
-            }).then(data => {
-                console.log(data.message);
-                alert(data.message)
-            }).catch(error => console.error('Error:', error));
+        if (!response.ok) {
+            alert('Invalid credentials or the account doesn\'t exists.');
+            throw new Error('Invalid credentials!');
+        }
+        return response.json();
+        }).then(data => 
+            {console.log(data.message);
+            if (data.redirect_url) {
+            window.location.href = data.redirect_url; // Redirect to the provided URL
+            }
+        }).catch(error => console.error('Error:', error));
         }
     </script>
 </body>

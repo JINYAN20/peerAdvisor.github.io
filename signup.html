@@ -18,7 +18,10 @@
         <div class="form-container">
             <h2>Create New Account</h2>
             <form onsubmit="signup(event)">
-                <input type="text" name="name" placeholder="Enter your name" required>
+                <div class="name-field">
+                    <input type="text" name="first_name" placeholder="First name" style="margin-right:15px" required>
+                    <input type="text" name="last_name" placeholder="Last name" required>    
+                </div>
                 <input type="text" name="email" placeholder="Enter your email" required>
                 <input type="password" name="password" placeholder="Enter your password" required>
                 <input type="password" name="confirm_password" placeholder="Re-enter your Password" required>
@@ -40,7 +43,8 @@
         function signup(event) {
             event.preventDefault();
           const data = {
-                'name': document.querySelector('input[name="name"]').value,
+                'first_name': document.querySelector('input[name="first_name"]').value,
+                'last_name': document.querySelector('input[name="last_name"]').value,
                 'email': document.querySelector('input[name="email"]').value,
                 'password': document.querySelector('input[name="password"]').value,
                 'is_counselor': document.querySelector('input[name="counselor"]').checked
@@ -53,10 +57,11 @@
               body: JSON.stringify(data)
             }).then(response => {
                 return response.json(); 
-                console.log('Status code:', response.status); 
           }).then(data => {
                 console.log(data.message);
-                alert(data.message)
+                if (confirm(data.message)){
+                window.location.href="/login.html#";
+                }
             }).catch(error => console.error('Error:', error));
         }
     </script>

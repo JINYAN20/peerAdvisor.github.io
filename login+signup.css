@@ -81,6 +81,16 @@ body {
     border: 1px solid #c4b2a3;
     border-radius: 5px;
 }
+.form-container .name-field{
+    display: flex;
+    justify-content: space-between;
+    width:94%;
+    margin: 0 auto;
+}
+.name-field input{
+    width:48%;
+    margin: 15px, 0;
+}
 .form-container .checkbox-container {
     margin: 15px 0;
     font-size: 18px;
