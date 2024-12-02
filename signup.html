@@ -17,7 +17,7 @@
         </div>
         <div class="form-container">
             <h2>Create New Account</h2>
-            <form>
+            <form onsubmit="signup(event)">
                 <input type="text" name="name" placeholder="Enter your name" required>
                 <input type="text" name="email" placeholder="Enter your email" required>
                 <input type="password" name="password" placeholder="Enter your password" required>
@@ -26,7 +26,7 @@
                     <input type="checkbox" name="counselor" id="counselor">
                     <label for="counselor">I am a counselor.</label>
                 </div>
-                <button type="submit" style="font-size: 16px;" onclick="signup()"">Register</button>
+                <button type="submit" style="font-size: 16px;">Register</button>
             </form>
         </div>
         <div class="footer">
@@ -37,12 +37,13 @@
     </div>
 
     <script>
-        function signup() {
-          data = {
-            'name': request.form.get('name'),
-            'email': request.form.get('email'),
-            'password': request.form.get('password'),
-            'is_counselor': request.form.get('counselor') == 'on' 
+        function signup(event) {
+            event.preventDefault();
+          const data = {
+                'name': document.querySelector('input[name="name"]').value,
+                'email': document.querySelector('input[name="email"]').value,
+                'password': document.querySelector('input[name="password"]').value,
+                'is_counselor': document.querySelector('input[name="counselor"]').checked
           };
           fetch('http://127.0.0.1:5000/signup', {
               method: 'POST',
@@ -50,7 +51,13 @@
                   'Content-Type': 'application/json',
               },
               body: JSON.stringify(data)
-          });
+            }).then(response => {
+                return response.json(); 
+                console.log('Status code:', response.status); 
+          }).then(data => {
+                console.log(data.message);
+                alert(data.message)
+            }).catch(error => console.error('Error:', error));
         }
     </script>
 </body>

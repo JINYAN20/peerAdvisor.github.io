@@ -27,20 +27,24 @@ with app.app_context():
 # Signup route
 @app.route('/signup', methods=['POST'])
 def signup():
+    print("signing up!")
     data = request.json
-    hashed_password = generate_password_hash(data['password'], method='sha256')
-    new_user = User(username=data['username'], email=data['email'], password=hashed_password)
+    hashed_password = generate_password_hash(data['password'], method='pbkdf2:sha256')
+    new_user = User(username=data['name'], email=data['email'], password=hashed_password)
 
     try:
         db.session.add(new_user)
         db.session.commit()
+        print("User created successfully!")
         return jsonify({"message": "User created successfully!"}), 201
     except:
+        print("User already exists!")
         return jsonify({"message": "User already exists!"}), 400
 
 # Login route
 @app.route('/login', methods=['POST'])
 def login():
+    print("logging in!")
     data = request.json
     user = User.query.filter_by(email=data['email']).first()
 
