@@ -104,15 +104,16 @@
                 <div class="homework-section">
                     <h2>Previous Exercises</h2>
                     <div class="homework-list">
-                        <div class="homework-item unfinished" onclick="openHomework(3)">
+                        <div class="homework-item unfinished" onclick="openSummary(3)">
                                 <span>Shame and Guilt Entry 3</span>
+                                
                                 <span>➔</span>
                         </div>
-                        <div class="homework-item unfinished" onclick="openHomework(4)">
+                        <div class="homework-item unfinished" onclick="openSummary(4)">
                                 <span>Shame and Guilt Entry 4</span>
                                 <span>➔</span>
                         </div>
-                        <div class="homework-item unfinished" onclick="openHomework(5)">
+                        <div class="homework-item unfinished" onclick="openSummary(5)">
                                 <span>Shame and Guilt Entry 5</span>
                                 <span>➔</span>
                         </div>
@@ -184,6 +185,10 @@
                 console.error("Error uploading data:", error);
                 alert("Failed to upload data.");
             });       
+        }
+        function openSummary(id) {
+            console.log("Opening homework with ID:", id);
+            window.location.href = `http://127.0.0.1:5500/psyc_summary.html`;
         }
     </script>
 

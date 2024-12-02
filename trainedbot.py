@@ -11,7 +11,7 @@ import flask.cli
 
 # Initialize Flask app
 app = Flask(__name__)
-app.secret_key = 'your_secret_key' 
+app.secret_key = 'hci420' 
 CORS(app)
 
 # Set your OpenAI API key here
@@ -49,10 +49,43 @@ def get_completion_from_messages(messages, model="gpt-4o-mini", temperature=0.47
         temperature=temperature
     )
     return response.choices[0].message.content
+
+# Load Personalized Data
+def load_personalized_data(client_id):
+    try:
+        with open(os.path.join(DATA_DIRECTORY, f"{client_id}.json"), 'r') as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return None
+
+global_question = None
+global_question_answer =None
+# If there are personalized data from couselor side
+def update_instructions_with_personalization(base_context, personalized_data):
+    if personalized_data:
+        global global_question
+        tone = ", ".join(personalized_data.get("tone", ["supportive", "friendly"]))
+        risky_keywords = personalized_data.get("risky", [])
+        risky_keywords_str = ", ".join(risky_keywords) if risky_keywords else "none provided"
+        homework_name = personalized_data.get("homework_name")
+        description = personalized_data.get("description")
+        global_question = personalized_data.get("questions")
+
+        # Append personalized details to the base instructions
+        personalized_instructions = f"""
+        Keep the tone {tone}. The client is working on a task named '{homework_name}', described as: "{description}". 
+        Be mindful of these keywords: {risky_keywords_str}. Guide the client thoughtfully, ensuring sensitivity to their unique situation.
+        - Ask the client exact sentence {global_question} one by one provided by his or her counselor after Ask the client: "Do these alternative perspectives change how you feel about your original thoughts?" If the client responds yes (or a similar affirmative answer) . After this, proceed to Part 3
+        """
+        # Add the personalized instructions to the default system context
+        base_context[0]["content"] += personalized_instructions
+    else:
+        print("No personalized data provided. Using default instructions.") 
+    return base_context
 # app.secret_key = 'hci420'
 context =[ {
     "role": "system",
-    "content": """
+    "content": f"""
 You are Peer Assistant, a conversational chatbot for the therapist exercise called "Understanding and Coping with Guilt and Shame." You’ll guide the client through exploring their feelings of guilt and reframing their thoughts to see things from a different perspective. 
 Throughout the conversation, maintain a friendly, supportive tone, creating a safe and compassionate environment for self-reflection.
 
@@ -73,7 +106,7 @@ Throughout the conversation, maintain a friendly, supportive tone, creating a sa
 - Respond empathetically. Remember, ask ONE question to encourage self-reflection.
 - If the client struggles to reframe a thought, provide supportive keywords or cues to encourage a different way of thinking.
 - Summarize each original thought alongside its alternative perspective in a parallel list, making it easy for the client to compare both viewpoints in detail. 
-- Ask the client: "Do these alternative perspectives change how you feel about your original thoughts?" If the client responds yes (or a similar affirmative answer), proceed to Part 3. If the client responds no, repeat the steps in Part 2. 
+- Ask the client: "Do these alternative perspectives change how you feel about your original thoughts?" If the client responds yes (or a similar affirmative answer), proceed to next instruction to ask client questions prepared by the counselors. If the client responds no, repeat the steps in Part 2. 
 
 
 #### Part 3: Summary
@@ -84,9 +117,12 @@ Throughout the conversation, maintain a friendly, supportive tone, creating a sa
 }
 ]
 
+#print(context)
+
 global_session_data = {
     'context': [],
-    'summary': None
+    'summary': None,
+    'Name' : None
 }
 
 
@@ -105,14 +141,29 @@ def chatpage():
 @app.route('/chat', methods=['POST'])
 def chat():
     user_message = request.json.get('message')
+    # Add personalized context
+    client_id = "Claudia Alves" # default value here
+    personalized_data = load_personalized_data(client_id) if client_id else None
+    update_instructions_with_personalization(context, personalized_data)
+    print(global_question)
+    print(context)
+   
     context.append({'role': 'user', 'content': user_message})
     assistant_reply = get_completion_from_messages(context)
     context.append({'role': 'assistant', 'content': assistant_reply})
     # Check if it's the end of the session
     #end_signal = "Thank you for your openness, do you want to end the conversation?" in assistant_reply
     end_signal = assistant_reply.strip().endswith("I hope I was able to help!")
+    specific_question = assistant_reply.strip().endswith(f"{global_question}")
+    if specific_question:
+         # store exact question from user as a global varaible to couselor
+        global global_question_answer
+        global_question_answer = user_message
+        print("User's answer to the question:", global_question_answer)
+       
     if end_signal:
         global_session_data['context'] = context.copy()
+        global_session_data['Name'] = client_id
     #     summary = generate_summary(response)
     #     #threading.Thread(target=save_summary, args=(summary,)).start()
     #     #save_summary(summary)
@@ -139,10 +190,11 @@ def save_summary(summary_json):
     """
     Save the summary to a JSON file.
     """
+    name = global_session_data.get('Name', 'Default Name')
     save_dir = os.path.abspath('conversation_summaries')
     os.makedirs(save_dir, exist_ok=True)
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    filename = os.path.join(save_dir, f'summary_{timestamp}.json')
+    filename = os.path.join(save_dir, f'summary_{timestamp}_{name}.json')
 
     try:
         with open(filename, 'w') as f:
@@ -166,10 +218,11 @@ def save_history(summary_json):
     """
     Save the summary to a JSON file.
     """
+    name = global_session_data.get('Name', 'Default Name')
     save_dir = os.path.abspath('conversation_histories')
     os.makedirs(save_dir, exist_ok=True)
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    filename = os.path.join(save_dir, f'history_{timestamp}.json')
+    filename = os.path.join(save_dir, f'history_{timestamp}_{name}.json')
 
     try:
         with open(filename, 'w') as f:
@@ -183,19 +236,19 @@ def save_history(summary_json):
 def end_conversation():
     # Get the data from the request
     data = request.get_json()
-    
+    name = global_session_data.get('Name', 'Default Name')
     # Print a statement when the user ends the conversation
-    print("User ended the conversation:", data)
+    #print("User ended the conversation:", data)
     context = global_session_data.get('context', [])
-    print(context)
+    #print(context)
     #context = session.get('context', [])
     messages = context.copy()
     messages.append(
-        {'role': 'system', 'content': 'Generate a session report summarizing the conversation and any key insights for the counselor of the client. '
-                                      'Itemize the guilt thoughts of the client and '
-                                      'The fields should be: '
-                                      '1) Client Name: 2) Client’s Experience: 3) Guilt-Driven Thoughts: '
-                                      '4) Reframed Perspectives: 5) Suggestions to Counselor:'}
+        {'role': 'system', 'content': f'Generate a session report summarizing the conversation and any key insights for the counselor of the client. '
+                                      f'Itemize the guilt thoughts of the client and Provide the exact answer of the user for the question '
+                                      f'The fields should be: '
+                                      f'1) Client Name: {name} 2) Client’s Experience: 3) Guilt-Driven Thoughts: '
+                                      f'4) Reframed Perspectives: 5). {global_question} : \n {global_question_answer} 6) Suggestions to Counselor: '}
     )
     
     response = get_completion_from_messages(messages, temperature=0.47)
