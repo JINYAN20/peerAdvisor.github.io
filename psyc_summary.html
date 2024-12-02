@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peer Aissistant</title>
+    <link rel="stylesheet" href="psyc_summary.css"> <!-- External CSS for styling -->
+</head>
+<body>
+    <header>
+        <h1 class="header-title">
+            <img src="images/logo_black.png" style="width: 40px; height: auto;">
+            Hi, Olivia.
+        </h1>
+    </header>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="menu"><a href="http://127.0.0.1:5500/psyc_home.html"><img src="images/home.png"  style="width: 30px; height: auto;" alt="Home"></div></a>
+        </aside>
+    
+    <main class="main-content">
+        <!-- Therapist Info -->
+        <div class="left-section">
+            <div class="card">
+                <div class="therapist-name">
+                    <div>  
+                        <p>My Client</p>                  
+                        <h2>Claudia Alves</h2>
+                    </div>
+                </div>
+                    <img src="images/client1.png" alt="Therapist" class="therapist-pic">
+            </div>
+            <div class="summary" id="summary">
+                <h2>Summary</h2>
+                <p> <span id="chat-summary"></span></p>
+                
+            </div>
+        </div>
+        <div class="right-section">
+            <h2>Full Conversation History</h2>
+            <div id="conversation-container" class="conversation"></div>
+            <style>
+                .role-user { color: #a46b34; font-weight: bold; }
+                .role-assistant { color: #0d0d0c; font-weight: bold; }
+                .message { margin-bottom: 15px; padding: 10px; border-radius: 5px; }
+            </style>
+                
+                <!-- Entries will be added dynamically here -->
+            </div>
+        </div>
+    </div>
+    </main>
+    <script type="module">
+        import { MarkdownBlock } from "https://md-block.verou.me/md-block.js";
+    
+        // Your code that uses MarkdownBlock
+        fetch('conversation_summaries/summary_20241201_223315_Claudia_Alves.json')
+            .then(response => response.json())
+            .then(data => {
+                const conversationSummary = data.conversation;
+                
+                const markdownBlock = new MarkdownBlock();
+                markdownBlock.textContent = conversationSummary;
+                
+                const summaryElement = document.getElementById('chat-summary');
+                summaryElement.appendChild(markdownBlock);
+            })
+            .catch(error => {
+                console.error('Error fetching JSON:', error);
+            });
+    </script>
+    <script>
+        // Fetch the JSON file and render conversation
+        fetch('conversation_histories/history_20241201_223315_Claudia_Alves.json')
+            .then(response => response.json())
+            .then(data => {
+                const conversationContainer = document.getElementById('conversation-container');
+                const conversation = data.conversation;
+
+                conversation.forEach(message => {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.classList.add('message');
+
+                    if (message.role === 'user') {
+                        messageDiv.classList.add('role-user');
+                        messageDiv.textContent = `User: ${message.content}`;
+                    } else if (message.role === 'assistant') {
+                        messageDiv.classList.add('role-assistant');
+                        messageDiv.textContent = `Assistant: ${message.content}`;
+                    }
+
+                    conversationContainer.appendChild(messageDiv);
+                });
+            })
+            .catch(error => console.error('Error fetching JSON:', error));
+    </script>
+    
+</body>
+</html>
+
+    
